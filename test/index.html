@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Reach 3DS2 Test Page</title>
+</head>
+<body>
+
+<div id="container">
+</div>
+
+<script type="text/javascript" src="adyen-3ds2-js/dist/threedsSDK.0.9.6.min.js"></script>
+<script type="text/javascript" src="../src/3ds2.js"></script>
+
+<script type="text/javascript">
+
+  var merchantId = '18da9ea3-f9ac-4e64-8405-d301f079a658';
+  var fingerprint = '5b421716-5117-41c5-93a8-e5b300c8496a';
+  
+  rch.requirements(merchantId, { Currency: 'EUR',
+                                 DeviceFingerprint: fingerprint })
+  .then(function(result) {
+    console.log('requirements success: ' + JSON.stringify(result));
+  })
+  .catch(function(error) {
+    console.log('requirements failure: ' + error);
+  });
+
+</script>
+
+</body>
+</html>

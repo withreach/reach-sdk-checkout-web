@@ -1,0 +1,25 @@
+{
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-regenerator",
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }]
+  ],
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": ["last 3 versions", "ie >= 9", "safari >= 7"]
+      },
+      "modules": false,
+      "useBuiltIns": "entry",
+      "debug": false
+    }]
+  ],
+  "env": {
+    "test": {
+      "presets": ["env"]
+    }
+  }
+}

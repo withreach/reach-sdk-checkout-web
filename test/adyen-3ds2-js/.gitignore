@@ -1,0 +1,8 @@
+node_modules/
+docs/
+coverage/
+.DS_Store
+.idea/
+coverage/
+package-lock.json
+src/.DS_Store
