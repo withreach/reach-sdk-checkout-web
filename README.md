@@ -3,7 +3,7 @@ Web SDK for the Reach Checkout API
 
 # MINIFICATION
 
-###Installation Instructions
+### Installation Instructions
 
 * Step 1: Install NodeJS (https://nodejs.org/en/download/)
 * Step 2: Install uglify libs (`npm install uglify-js uglifyjs-folder`)
