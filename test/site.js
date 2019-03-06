@@ -9,3 +9,8 @@ rch.requirements(merchantId, { Currency: 'EUR',
 .catch(function(error) {
   console.log('requirements failure: ' + error);
 });
+
+window.threedsSDK.createIframe(document.body, 'iframe name', 'iframe id')
+	   .then(function(something) {
+		 console.log('it worked!');
+	   })
