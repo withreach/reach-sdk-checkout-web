@@ -48,6 +48,7 @@ rch.detail.url = rch.detail.url || {};
 rch.detail.url.requirements = "https://checkout-dev.gointerpay.net/v2.19/requirements";
 rch.detail.url.fingerprint = "https://checkout-dev.gointerpay.net/v2.19/fingerprint";
 
+// TODO: construct this with browser info in path
 rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/3ds2/return_fingerprint.html"
 
 // ===========================================================================
