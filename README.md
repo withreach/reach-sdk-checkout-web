@@ -5,9 +5,8 @@ Web SDK for the Reach Checkout API
 
 ### Installation Instructions
 
-* Step 1: Install NodeJS (https://nodejs.org/en/download/)
-* Step 2: Install uglify libs (`npm install uglify-js uglifyjs-folder`)
-* Step 3: Might have to install via: `apt-get install node-uglify`
+* Step 1: Install NodeJS uglify (`sudo apt-get install node-uglify`)
+* Step 2: Install uglifyjs-folder (`sudo npm install -g uglifyjs-folder`)
 
 ### Usage
 
