@@ -231,7 +231,7 @@ rch.challenge = function(url, windowSize, iframeContainer) {
     // the rest of the data will be filled in by the Reach backend
     // TODO: implement backend
     var cReqData = { challengeWindowSize: iframeConfig.size };
-    window.threedsSDK.createChallenge (url, cReqData, iframeConfig, null)
+    window.threedsSDK.doReachChallenge (url, cReqData, iframeConfig, null)
     .then(function(resolveData) {
       resolve({ transStatus: resolveData.transStatus }) // TODO: result of authorization?
     });

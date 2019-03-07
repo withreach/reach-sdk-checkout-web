@@ -5,7 +5,7 @@
 import 'core-js/fn/promise' // adds 46k (unminified)
 import { createChallenge } from './core/create-challenge';
 import { getMethodStatus } from './core/get-method-status';
-import createIframe from "./utils/create-iframe";
+import { createReachChallenge } from './core/create-reach-challenge';
 
 const threedsSDK = {};
 
@@ -66,7 +66,14 @@ threedsSDK.get3DSMethodStatus = getMethodStatus;
  * @returns createChallenge {Promise} : The Promise is resolved or rejected with an Object with a 'transStatus' property (indicating the outcome of the Challenge: 'Y' or 'N'). The resolved/rejected object also contains a threeDSServerTransID property - a reference to the passed 3DS Server Transaction ID.
  */
 threedsSDK.doChallenge = createChallenge;
-threedsSDK.createIframe = createIframe;
+
+/**
+ * @function doReachChallenge
+ * @public
+ *
+ * @desc Same as doChallenge, but handles the Reach authorization result.  TODO: move out of adyen subdirectory.
+ */
+threedsSDK.doReachChallenge = createReachChallenge;
 
 window.threedsSDK = threedsSDK;
 
