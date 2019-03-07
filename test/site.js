@@ -11,7 +11,6 @@ rch.requirements(merchantId, { Currency: 'EUR',
   console.log('requirements failure: ' + error);
 });
 
-
 rch.challenge("https://checkout.rch.red/challenge/95189a69-defd-48e3-997a-6f8dca8d16d8", 
               "03", document.getElementById("container"))
 .then(function(result) {
@@ -21,5 +20,3 @@ rch.challenge("https://checkout.rch.red/challenge/95189a69-defd-48e3-997a-6f8dca
   console.log('challenge failure: ' + error);
 });
 
-rch.requirements(merchantId, { Currency: 'EUR',
-                               DeviceFingerprint: fingerprint })
