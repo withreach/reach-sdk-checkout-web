@@ -6,6 +6,7 @@ import 'core-js/fn/promise' // adds 46k (unminified)
 import { createChallenge } from './core/create-challenge';
 import { getMethodStatus } from './core/get-method-status';
 import { createReachChallenge } from './core/create-reach-challenge';
+import { getReachMethodStatus } from './core/get-reach-method-status';
 
 const threedsSDK = {};
 
@@ -44,6 +45,15 @@ const threedsSDK = {};
  * @returns Promise {Promise} : The Promise is resolved or rejected with an Object with a property, 'threeDSCompInd', indicating the outcome of the 3DS Method URL call ('Y', 'N' or 'U')
  */
 threedsSDK.get3DSMethodStatus = getMethodStatus;
+
+/**
+ * @function doReachChallenge
+ * @public
+ *
+ * @desc Same as doChallenge, but handles the Reach authorization result.  TODO: move out of adyen subdirectory.
+ */
+threedsSDK.getReach3DSMethodStatus = getReachMethodStatus;
+
 
 /**
  * @function doChallenge

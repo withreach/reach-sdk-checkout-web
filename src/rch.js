@@ -49,7 +49,7 @@ rch.detail.url.requirements = "https://checkout-dev.gointerpay.net/v2.19/require
 rch.detail.url.fingerprint = "https://checkout-dev.gointerpay.net/v2.19/fingerprint";
 
 // TODO: construct this with browser info in path
-rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/3ds2/return_fingerprint.html";
+rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/sdk/test/method_notification.html";
 
 // ===========================================================================
 // Send an HTTP request
@@ -178,10 +178,10 @@ rch.requirements = function(merchantId, params){
         console.log(params['DeviceFingerprint']);
         console.log(requirements['threeDSMethodURL']);
         console.log(rch.detail.url.threeDSMethodNotificationURL);
-        window.threedsSDK.get3DSMethodStatus(params['DeviceFingerprint'], // threeDSServerTransID
-                                             requirements['threeDSMethodURL'],
-                                             rch.detail.url.threeDSMethodNotificationURL,
-                                             document.body) // container
+        window.threedsSDK.getReach3DSMethodStatus(params['DeviceFingerprint'], // threeDSServerTransID
+                                                  requirements['threeDSMethodURL'],
+                                                  rch.detail.url.threeDSMethodNotificationURL,
+                                                  document.body) // container
         .then(function(resolveData) {
 
           // create hidden frame, submit form, add onload method to check 
