@@ -12,11 +12,10 @@ Web SDK for the Reach Checkout API
 
 If changes are made in the `adyen-3ds2-js/` directory, rebuild as follows:
 * Run `npm install` and `npm run build` from `adyen-3ds2-js/`
-* Copy `adyen-3ds2-js/dist/threedsSDK.0.9.6.min.js` into `libs`
 
 ### Reach SDK
 
-* Run `./minify.sh` to compile all files into a single file in `/dist/` directory
+* Run `./minify.sh` to compile all files into a single file in `dist/`
 
 ### Testing
 
