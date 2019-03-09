@@ -49,7 +49,7 @@ rch.detail.url.requirements = "https://checkout-dev.gointerpay.net/v2.19/require
 rch.detail.url.fingerprint = "https://checkout-dev.gointerpay.net/v2.19/fingerprint";
 
 // TODO: construct this with browser info in path
-rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/3ds2/return_fingerprint.html"
+rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/3ds2/return_fingerprint.html";
 
 // ===========================================================================
 // Send an HTTP request
@@ -159,9 +159,9 @@ rch.requirements = function(merchantId, params){
     checkAndAdd("ContractId",        rch.detail.regex.uuid);
     checkAndAdd("ContractIntent",    rch.detail.regex.contractIntent);
 
-    if(("IIN" in params) ? 1 : 0 +
-       ("PaymentMethod" in params) ? 1 : 0 +
-       ("ContractId" in params) ? 1 : 0 > 1){
+    if(((("IIN" in params) ? 1 : 0) +
+        (("PaymentMethod" in params) ? 1 : 0) +
+        (("ContractId" in params) ? 1 : 0)) > 1){
       throw Error("rch.requirements: only one of IIN, PaymentMethod, " +
                   "or ContractId may be specified");
     }
