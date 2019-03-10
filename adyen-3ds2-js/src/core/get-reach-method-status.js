@@ -69,9 +69,11 @@ export const getReachMethodStatus = (serverTransactionID, methodURL, threedsMeth
              */
             const createIframeAndAppendForm = async () => {
 
+                // TODO: don't need checkForResult
+                const iframe = await createIframe(iframeContainer, 'threeDSMethodIframe', 'methodIframeContainer', '0', '0', checkForResult);
+
 
                 var receiveMessage = function(event) {
-
                     // TODO: okay to use URL class?
                     const url = new URL(threedsMethodNotificationURL);
                     if (event.origin == url.origin) {
@@ -80,10 +82,8 @@ export const getReachMethodStatus = (serverTransactionID, methodURL, threedsMeth
                         window.removeEventListener("message", receiveMessage);
                     }
                 }
-                    
-                const iframe = await createIframe(iframeContainer, 'threeDSMethodIframe', 'methodIframeContainer', '0', '0', checkForResult);
-
                 window.addEventListener("message", receiveMessage);
+                
                 
                 const iframeCW = appendAndSubmitForm(iframe);
 

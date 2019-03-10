@@ -84,7 +84,32 @@ export const createReachChallenge = (acsURL, cReqData, iframeConfig, callBack) =
              * @returns {Promise<*>}
              */
             const createIframeAndAppendForm = async () => {
+                
+                // TODO: don't need checkForResult
                 const iframe = await createIframe(iframeConfig.container, iframeName, iframeName + 'Container', iframeSize[0], iframeSize[1], checkForResult);
+    
+                
+                // Receive a message posted by the iframe
+                const receiveMessage = function(event) {
+    
+                    const url = new URL(acsURL);
+                    if (event.origin != url.origin) {
+                        console.log("Ignoring message from", event.origin);
+                        return;
+                    }
+    
+                    console.log("Received message:", event.data);
+
+                    if (event.data.resolveData) {
+                        resolve(event.data.resolveData);
+                    } else {
+                        reject(event.data.error);
+                    }
+                    window.removeEventListener("message", receiveMessage);
+                };
+                window.addEventListener("message", receiveMessage);
+                
+                
                 return appendAndSubmitForm(iframe);
             };
 
