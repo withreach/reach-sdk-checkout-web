@@ -48,9 +48,6 @@ rch.detail.url = rch.detail.url || {};
 rch.detail.url.requirements = "https://checkout-dev.gointerpay.net/v2.19/requirements";
 rch.detail.url.fingerprint = "https://checkout-dev.gointerpay.net/v2.19/fingerprint";
 
-// TODO: construct this with browser info in path
-rch.detail.url.threeDSMethodNotificationURL = "https://lister.gointerpay.net/~landon/sdk/test/method_notification.html";
-
 // ===========================================================================
 // Send an HTTP request
 rch.detail.request = function(url, entity = null, contentType = null){
@@ -74,133 +71,122 @@ rch.detail.request = function(url, entity = null, contentType = null){
   });
 };
 
-
 // ===========================================================================
-// Determine what is required for an order to be placed, based on the
-// specified information.  The information given should be as close as
-// possible to what will be specified when the order is placed, and can be
-// called repeatedly when new information or as changes are made.
+// Before authorizing a credit card, determine its eligibility for
+// 3-D Secure v2 and perform the initial interaction with the Access
+// Control Server if required.
 //
-// If called with an IIN or PaymentMethod, this will fingerprint the device
-// for 3D-Secure 2.0.
+//  - merchantId (string)
+//      The UUID for the merchant using this service.
+// 
+//  - deviceFingerprint (string)
+//      The Reach device fingerprint determined earlier using the /fingerprint
+//      API call.
 //
-// The params object:
+//  - currency (string)
+//      The currency being used for the order.
 //
-//  MUST contain the following:
+//  - country (string)
+//      The upper-case 2 character ISO 3166-1-alpha-2 country code of the
+//      consumer placing the order.
 //
-//   - Currency: the upper-case 3 character ISO 4217 currency code used in the
-//     order.
-//
-//   - DeviceFingerprint: the fingerprint set from a /fingerprint API call.
-//     TODO: add SDK method for fingerprint.
-//
-//  MAY contain ONE OF the following:
-//     
-//   - IIN: if a credit card will be used as the payment method of the order,
-//     this is the first 6 digits of that card.
-//
-//   - PaymentMethod: if a credit card or contract is not being used as
-//     payment for the order, this is the payment method that will be used.
-//
-//   - ContractId: if payment for the order will be made using an existing
-//     contract, this is the ID of that contract.
-//
-//  and MAY contain:
-//
-//   - Country: the upper-case 2 character ISO 3166-1-alpha-2 country code of
-//     the consumer that will place the order.
-//
-//   - ContractIntent: if a new contract is to be opened, this is the intent
-//     of that contract.  This may be one of "OnFile" or "Instalments".
-//
+//  - iin (string or number)
+//      The Issuer Identification Number, i.e. the first 6 digits of the
+//      credit card being used for payment.
+// 
 // Returns a Promise which resolves with an object containing:
 // 
-//   - Name: the name of the Reach company handling the order.
-//   - Address: the address of the Reach company.
-//   - Country: the country in which the Reach company operates
-//   - Logo: the URL of the logo for the Reach company
-//   - MerchantName: the name of the Reach company
-//   - Regulations: an array of regulations relevant to the order
-//       TODO: reference to document for more info?
-//   - Collect: an array of TODO
-//   - Information: TODO
-//   - threeDSCompInd: indication of 3DS2 fingerprinting success, to be
-//       specified in subsequent Checkout API requests
+//   - threeDSCompInd (optional string)
+//       Per 3-D Secure v2, a value of 'Y' or 'N' to indicate completion of the
+//       3DS Method step.
+//       Existence of this value indicates that Reach will attempt to
+//       authorize the order using 3-D Secure v2 and a cardholder challenge
+//       may be required.
 //
-rch.requirements = function(merchantId, params){
+rch.prepareCardPayment = function(merchantId,
+                                  deviceFingerprint,
+                                  currency,
+                                  country,
+                                  iin) {
 
   return new Promise(function(resolve, reject) {
     
+    // Validate input
+    const error = function(message, value) {
+      return Error("rch.prepareCard: " + message + ": " + value);
+    }
     if(!merchantId || !rch.detail.regex.uuid.test(merchantId)){
-      throw Error("rch.requirements: Invalid MerchantId: " + merchantId);
+      throw error("Invalid merchantId", merchantId);
     }
-  
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Find all the params and start building the request.  
-  
-    var url = rch.detail.url.requirements + "?MerchantId=" + merchantId;
-  
-    var checkAndAdd = function(name, re, required = false){
-      var val = params[name];
-      if(typeof(val) === "string" && re.test(val)){
-        url += "&" + name + "=" + val;
-      }else if(typeof(val) !== "undefined"){
-        throw Error("rch.requirements: invalid " + name + ": " + val);
-      }else if(required){
-        throw Error("rch.requirements: missing " + name);
-      }
-    };
-  
-    checkAndAdd("Currency",          rch.detail.regex.currency, true);
-    checkAndAdd("DeviceFingerprint", rch.detail.regex.fingerprint, true);
-    checkAndAdd("Country",           rch.detail.regex.country);
-    checkAndAdd("IIN",               rch.detail.regex.iin);
-    checkAndAdd("PaymentMethod",     rch.detail.regex.paymentMethod);
-    checkAndAdd("ContractId",        rch.detail.regex.uuid);
-    checkAndAdd("ContractIntent",    rch.detail.regex.contractIntent);
+    if (!deviceFingerprint) {
+      throw error("Invalid deviceFingerprint", deviceFingerprint);
+    }
+    if (!currency || currency.length != 3) {
+      throw error("Invalid currency", currency);
+    }
+    if (!country || country.length != 2) {
+      throw error("Invalid country", country);
+    }
+    if (!iin) {
+      throw error("Invalid iin", iin);
+    }
+    iin = Number(iin).toString();
+    if (iin.length != 6) {
+      throw error("Invalid iin", iin);
+    }
 
-    if(((("IIN" in params) ? 1 : 0) +
-        (("PaymentMethod" in params) ? 1 : 0) +
-        (("ContractId" in params) ? 1 : 0)) > 1){
-      throw Error("rch.requirements: only one of IIN, PaymentMethod, " +
-                  "or ContractId may be specified");
-    }
-  
+    // Construct the requirements URL
+    var url = rch.detail.url.requirements + "?";
+
+    const add = function(name, value){
+      url += "&" + name + "=" + value;
+    };
+    add("MerchantId", merchantId);
+    add("DeviceFingerprint", deviceFingerprint);
+    add("Currency", currency);
+    add("IIN", iin);
+    add("Country", country);
+
+    // Make the Checkout API request
     rch.detail.request(url).then(function(result) {
       console.log(result);
-      var requirements = JSON.parse(result)['Entity'];
+      var requirements = JSON.parse(result);
+      var threeDS = requirements['ThreeDS'];
 
-      // TODO: return this from /requirements
-      requirements['threeDSMethodURL'] = "https://pal-test.adyen.com/threeds2simulator/acs/startMethod.shtml";
+      if (threeDS) {
+        console.log(threeDS);
 
-      if (requirements['threeDSMethodURL']) {
+        // TODO: add browser info to threeDS['MethodNotificationUrl']
         
-        console.log(params['DeviceFingerprint']);
-        console.log(requirements['threeDSMethodURL']);
-        console.log(rch.detail.url.threeDSMethodNotificationURL);
-        window.threedsSDK.getReach3DSMethodStatus(params['DeviceFingerprint'], // threeDSServerTransID
-                                                  requirements['threeDSMethodURL'],
-                                                  rch.detail.url.threeDSMethodNotificationURL,
-                                                  document.body) // container
+        window.threedsSDK.getReach3DSMethodStatus(
+                            deviceFingerprint, // threeDSServerTransID
+                            threeDS['MethodUrl'],
+                            threeDS['MethodNotificationUrl'],
+                            document.body) // container
         .then(function(resolveData) {
 
-          // create hidden frame, submit form, add onload method to check 
-          // iframe location; callback when form has hit notification URL
-          requirements['threeDSCompInd'] = resolveData.threeDSCompInd;
-          resolve(requirements);
-          
+          // create hidden frame, submit form, callback when form has hit 
+          // notification URL
+          resolve({ threeDSCompInd: resolveData.threeDSCompInd });
+        })
+        .catch(function(error) {
+          reject(error);
         });
       } else {
         // There is no threeDSMethodURL... nothing to do.
-        resolve(requirements);
+        resolve({});
       } 
+    })
+    .catch(function(error) {
+      reject(error);
     });
   });
 };
 
 
+
 // ===========================================================================
-// Execute a 3D-Secure 2.0 cardholder challenge.  This should be called when a
+// Execute a 3D-Secure v2 cardholder challenge.  This should be called when a
 // `Challenge` result is returned from a Checkout API call.
 //
 //  - url: the challenge URL returned from the Checkout API.
@@ -232,7 +218,7 @@ rch.challenge = function(url, windowSize, iframeContainer) {
   // the rest of the data will be filled in by the Reach backend
   var cReqData = { challengeWindowSize: iframeConfig.size };
 
-  return window.threedsSDK.doReachChallenge (url, cReqData, iframeConfig, null);
+  return window.threedsSDK.doReachChallenge(url, cReqData, iframeConfig, null);
 }
 
 // #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
