@@ -2,6 +2,7 @@ import createIframe from "../utils/create-iframe";
 import { createForm } from "../utils/create-form";
 import base64URL from "../utils/base-64-url";
 import { defaultRootContainer, THREEDS_METHOD_TIMEOUT } from "../globals/config";
+import { getUrlOrigin } from '../utils/url';
 
 let at3DSMethodNotificationUrlResolvedFn;
 
@@ -74,9 +75,7 @@ export const getReachMethodStatus = (serverTransactionID, methodURL, threedsMeth
 
 
                 var receiveMessage = function(event) {
-                    // TODO: okay to use URL class?
-                    const url = new URL(threedsMethodNotificationURL);
-                    if (event.origin == url.origin) {
+                    if (event.origin == getUrlOrigin(threedsMethodNotificationURL)) {
                         console.log("Received message:",event.data);
                         window.removeEventListener("message", receiveMessage);
                         at3DSMethodNotificationUrlResolvedFn('Y');

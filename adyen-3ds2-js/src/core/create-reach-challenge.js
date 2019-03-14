@@ -5,6 +5,7 @@ import { challengeWindowSizes} from '../globals/config';
 import { parseQueryString } from '../utils/parse-query-string';
 import { removeChallenge } from '../utils/cleanup-challenge';
 import { log } from '../utils/logger';
+import { getUrlOrigin } from '../utils/url';
 
 export const createReachChallenge = (acsURL, cReqData, iframeConfig, callBack) => {
 
@@ -92,8 +93,7 @@ export const createReachChallenge = (acsURL, cReqData, iframeConfig, callBack) =
                 // Receive a message posted by the iframe
                 const receiveMessage = function(event) {
     
-                    const url = new URL(acsURL);
-                    if (event.origin != url.origin) {
+                    if (event.origin != getUrlOrigin(acsURL)) {
                         console.log("Ignoring message from", event.origin);
                         return;
                     }
