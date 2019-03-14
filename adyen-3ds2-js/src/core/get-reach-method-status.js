@@ -78,8 +78,8 @@ export const getReachMethodStatus = (serverTransactionID, methodURL, threedsMeth
                     const url = new URL(threedsMethodNotificationURL);
                     if (event.origin == url.origin) {
                         console.log("Received message:",event.data);
-                        at3DSMethodNotificationUrlResolvedFn('Y');
                         window.removeEventListener("message", receiveMessage);
+                        at3DSMethodNotificationUrlResolvedFn('Y');
                     }
                 }
                 window.addEventListener("message", receiveMessage);

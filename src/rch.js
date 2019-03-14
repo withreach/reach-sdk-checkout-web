@@ -82,7 +82,7 @@ rch.detail.request = function(url, entity = null, contentType = null){
 // called repeatedly when new information or as changes are made.
 //
 // If called with an IIN or PaymentMethod, this will fingerprint the device
-// for 3D Secure 2.0.
+// for 3D-Secure 2.0.
 //
 // The params object:
 //
@@ -200,7 +200,7 @@ rch.requirements = function(merchantId, params){
 
 
 // ===========================================================================
-// Execute a 3DSecure 2.0 cardholder challenge.  This should be called when a
+// Execute a 3D-Secure 2.0 cardholder challenge.  This should be called when a
 // `Challenge` result is returned from a Checkout API call.
 //
 //  - url: the challenge URL returned from the Checkout API.
@@ -219,23 +219,20 @@ rch.requirements = function(merchantId, params){
 //
 // Returns a Promise which resolves with an object containing:
 // 
-//   - transStatus: indication of 3DS2 authentication success, to be
-//       specified in subsequent Checkout API requests
+//   - challengeCompletionInd: per standard, "Y" if the cardholder challenge
+//        was completed and no more information is required from the shopper, 
+//        else "N".
+//   - authorized:  true if the transaction was authorized, else false.
 //
 rch.challenge = function(url, windowSize, iframeContainer) {
 
-  return new Promise(function(resolve, reject) {
-    var iframeConfig = { size: windowSize,
-                         container: iframeContainer };
-                         
-    // the rest of the data will be filled in by the Reach backend
-    // TODO: implement backend
-    var cReqData = { challengeWindowSize: iframeConfig.size };
-    window.threedsSDK.doReachChallenge (url, cReqData, iframeConfig, null)
-    .then(function(resolveData) {
-      resolve({ transStatus: resolveData.transStatus }) // TODO: result of authorization?
-    });
-  });
+  var iframeConfig = { size: windowSize,
+                       container: iframeContainer };
+                       
+  // the rest of the data will be filled in by the Reach backend
+  var cReqData = { challengeWindowSize: iframeConfig.size };
+
+  return window.threedsSDK.doReachChallenge (url, cReqData, iframeConfig, null);
 }
 
 // #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#

@@ -98,14 +98,12 @@ export const createReachChallenge = (acsURL, cReqData, iframeConfig, callBack) =
                         return;
                     }
     
-                    console.log("Received message:", event.data);
-
-                    if (event.data.resolveData) {
-                        resolve(event.data.resolveData);
-                    } else {
-                        reject(event.data.error);
-                    }
                     window.removeEventListener("message", receiveMessage);
+                    console.log("Received challenge message:", event.data);
+                    // Expected data:
+                    //   challengeCompletionInd: 'Y'/'N'
+                    //   authorized:  true/false
+                    resolve(event.data);
                 };
                 window.addEventListener("message", receiveMessage);
                 
