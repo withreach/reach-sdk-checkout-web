@@ -1,4 +1,4 @@
 #!/bin/bash
 
-( cd adyen-3ds2-js && npm run build ) &&
+( cd adyen-3ds2-js-utils && npm run build ) &&
 ./minify.sh
