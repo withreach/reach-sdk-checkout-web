@@ -17,6 +17,7 @@
 
 
 var rch = rch || {};
+rch.detail = rch.detail || {};
 
 /**
  * @function getUrlOrigin
@@ -25,7 +26,7 @@ var rch = rch || {};
  * @param {string} url - URL to be parsed
  * @return {string} - The origin of the URL
  */
-export const getUrlOrigin = function(url) {
+rch.detail.getUrlOrigin = function(url) {
   var pathArray = url.split( '/' );
   if (pathArray.length < 3) {
     return '';
@@ -62,26 +63,26 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
   // create iframe and POST browser info, windowSize
   const postData = {
-    browserInfo: threeds2utilities.collectBrowserInfo(),
-    windowSize: windowSize
+    Browser: window.ThreedDS2Utils.getBrowserInfo(),
+    ChallengeWindowSize: windowSize
   };
 
   const IFRAME_NAME = 'threedsIframe';
 
   const challengeWindowSize 
-          = threedsutilities.validateChallengeWindowSize(windowSize);
+          = window.ThreedDS2Utils.config.validateChallengeWindowSize(windowSize);
    
   const iframeDims
-          = threedsutilities.getChallengeWindowSize(challengeWindowSize);
+          = window.ThreedDS2Utils.config.getChallengeWindowSize(challengeWindowSize);
 
   // Create iframe with the challenge dimensions
-  const iframe = threeds2utilities.createIframe(iframeContainer, IFRAME_NAME, 
-                                                iframeDims[0], iframeDims[1]);
+  const iframe = window.ThreedDS2Utils.createIframe(iframeContainer, IFRAME_NAME, 
+                                                    iframeDims[0], iframeDims[1]);
 
   // Create a form that will use the iframe to POST data
-  const form = threeds2utilities.createForm('threedsMethodForm', url, 
-                                            IFRAME_NAME, 'data', 
-                                            JSON.stringify(postData));
+  const form = window.ThreedDS2Utils.createForm('threedsMethodForm', url, 
+                                                IFRAME_NAME, 'data', 
+                                                JSON.stringify(postData));
   iframeContainer.appendChild(form);
   
   const cleanupForm = function() {
@@ -98,7 +99,7 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
   // Receive a message posted by the iframe
   const receiveMessage = function(event) {
 
-    if (event.origin != getUrlOrigin(url)) {
+    if (event.origin != rch.detail.getUrlOrigin(url)) {
       console.log("Ignoring message from", event.origin);
       return;
     }
