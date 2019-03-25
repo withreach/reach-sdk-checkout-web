@@ -4,8 +4,19 @@
 </head>
 <body>
 
-<div id="container">
-</div>
+<form style="border: 1px solid">
+Challenge URL: <input type="text" size="40" id="url"/><br/>
+Window Size: <input type="text" size="2" id="windowSize" value="01"/><br/>
+<button type="button" id="challenge">challenge</button>
+</form>
+
+<div id="container" style="border: 1px solid"></div>
+
+<textarea rows="10" cols="80" id="result">
+</textarea>
+
+<style>
+</style>
 
 <script type="text/javascript" src="../adyen-3ds2-js-utils/dist/threeds2-js-utils.js"></script>
 <script type="text/javascript" src="../src/rch.js"></script>
