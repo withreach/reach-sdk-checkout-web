@@ -1,7 +1,7 @@
 
 
 document.getElementById("challenge").onclick = function(e) {
-  console.log("hello");
+  
   rch.challenge(document.getElementById("url").value, 
                 document.getElementById("windowSize").value,
                 document.getElementById("container"), 
@@ -9,7 +9,6 @@ document.getElementById("challenge").onclick = function(e) {
     document.getElementById("result").value 
       = Date() + "\n" + JSON.stringify(result);
   });
-  
   
 }
 

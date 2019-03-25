@@ -114,15 +114,8 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
   const IFRAME_NAME = 'threedsIframe';
 
-  const challengeWindowSize 
-          = window.ThreedDS2Utils.config.validateChallengeWindowSize(windowSize);
-   
-  const iframeDims
-          = window.ThreedDS2Utils.config.getChallengeWindowSize(challengeWindowSize);
-
-  // Create iframe with the challenge dimensions
-  const iframe = window.ThreedDS2Utils.createIframe(iframeContainer, IFRAME_NAME, 
-                                                    iframeDims[0], iframeDims[1]);
+  // Create iframe, 0 x 0 dimensions to start
+  const iframe = window.ThreedDS2Utils.createIframe(iframeContainer, IFRAME_NAME);
 
   // Create a form that will use the iframe to POST data
   const form = rch.detail.createForm('threedsMethodForm', url, 
@@ -142,12 +135,21 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
       return;
     }
 
-    window.removeEventListener("message", receiveMessage);
-    console.log("Received challenge result:", event.data);
-    cleanup();
-    // Expected data:
-    //   authorized:  true/false
-    callback(event.data);
+    console.log("Received message:", event.data);
+
+    if (event.data.resizeIframe) {
+      iframe.width = event.data.resizeIframe.width;
+      iframe.height = event.data.resizeIframe.height;
+      return;
+    }
+    
+    if (event.data.result) {
+      window.removeEventListener("message", receiveMessage);
+      cleanup();
+      // Expected in result:
+      //   authorized:  true/false
+      callback(event.data.result);
+    }
   };
   
   window.addEventListener("message", receiveMessage);
