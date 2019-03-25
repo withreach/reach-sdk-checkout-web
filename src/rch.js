@@ -129,16 +129,10 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
                                      IFRAME_NAME, postData);
   iframeContainer.appendChild(form);
   
-  const cleanupForm = function() {
+  const cleanup = function() {
     iframeContainer.removeChild( form );
-    // TODO: clean up the iframe?
+    iframeContainer.removeChild( iframe );
   }
-  
-  /* TODO: want a timeout handler?
-  setTimeout( function () {
-    cleanupForm();
-  }, 30000 ); 
-  */
   
   // Receive a message posted by the iframe
   const receiveMessage = function(event) {
@@ -150,7 +144,7 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
     window.removeEventListener("message", receiveMessage);
     console.log("Received challenge result:", event.data);
-    cleanupForm();
+    cleanup();
     // Expected data:
     //   authorized:  true/false
     callback(event.data);
