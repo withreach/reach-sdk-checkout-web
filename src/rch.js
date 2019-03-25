@@ -34,6 +34,44 @@ rch.detail.getUrlOrigin = function(url) {
   return pathArray[0] + '//' + pathArray[2];
 };
 
+/**
+ * @function createForm
+ *
+ * @desc Generic function for creating a form element with a target attribute
+ *
+ * @param name {String} - the name of the form element
+ * @param action {String} - the action for the form element
+ * @param target {String} - the target for the form element (specifies where the submitted result will open i.e. an iframe)
+ * @param values {Object} - key value pairs to be posted from the form
+ *
+ * @returns {Element} - Created form element
+ */
+rch.detail.createForm = (name, action, target, values) => {
+
+    if (!name || !action || !target || !values) {
+        throw new Error('Not all required parameters provided for form creation');
+    }
+
+    if (name.length === 0 || action.length === 0 || target.length === 0) {
+        throw new Error('Not all required parameters have suitable values');
+    }
+
+    const form = document.createElement( 'form' );
+    form.style.display = 'none';
+    form.name = name;
+    form.action = action;
+    form.method = "POST";
+    form.target = target;
+    for (const key in values) {
+      const input = document.createElement( 'input' );
+      input.name = key;
+      input.value = values[key];
+      form.appendChild( input );
+    }
+    return form;
+};
+
+
 // ===========================================================================
 // Execute a 3D-Secure v2 cardholder challenge.  This should be called when a
 // `Challenge` result is returned from a Checkout API call.
@@ -62,9 +100,16 @@ rch.detail.getUrlOrigin = function(url) {
 rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
   // create iframe and POST browser info, windowSize
+  const browser = window.ThreedDS2Utils.getBrowserInfo();
   const postData = {
-    Browser: window.ThreedDS2Utils.getBrowserInfo(),
-    ChallengeWindowSize: windowSize
+    challengeWindowSize : windowSize,
+    screenWidth : browser.screenWidth,
+    screenHeight : browser.screenHeight,
+    colorDepth: browser.colorDepth,
+    userAgent : browser.userAgent,
+    tz : browser.timeZoneOffset,
+    language: browser.language,
+    javaEnabled: browser.javaEnabled
   };
 
   const IFRAME_NAME = 'threedsIframe';
@@ -80,9 +125,8 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
                                                     iframeDims[0], iframeDims[1]);
 
   // Create a form that will use the iframe to POST data
-  const form = window.ThreedDS2Utils.createForm('threedsMethodForm', url, 
-                                                IFRAME_NAME, 'data', 
-                                                JSON.stringify(postData));
+  const form = rch.detail.createForm('threedsMethodForm', url, 
+                                     IFRAME_NAME, postData);
   iframeContainer.appendChild(form);
   
   const cleanupForm = function() {
