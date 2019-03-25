@@ -102,7 +102,8 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
   // create iframe and POST browser info, windowSize
   const browser = window.ThreedDS2Utils.getBrowserInfo();
   const postData = {
-    challengeWindowSize : windowSize,
+    challengeWindowSize : 
+      window.ThreedDS2Utils.config.validateChallengeWindowSize(windowSize),
     screenWidth : browser.screenWidth,
     screenHeight : browser.screenHeight,
     colorDepth: browser.colorDepth,
@@ -137,13 +138,18 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
     console.log("Received message:", event.data);
 
-    if (event.data.resizeIframe) {
-      iframe.width = event.data.resizeIframe.width;
-      iframe.height = event.data.resizeIframe.height;
-      return;
+    if (event.data.challengeWindowSize) {
+      // Resize the iframe in preparation for the challenge
+      const windowSize
+        = window.ThreedDS2Utils.config.validateChallengeWindowSize(
+            event.data.challengeWindowSize);
+      const iframeDims
+          = window.ThreedDS2Utils.config.getChallengeWindowSize(windowSize);
+      iframe.width = iframeDims[0];
+      iframe.height = iframeDims[1]; 
     }
-    
-    if (event.data.result) {
+    else if (event.data.result) {
+      // Clean up the iframe and call back after the challenge has completed
       window.removeEventListener("message", receiveMessage);
       cleanup();
       // Expected in result:
