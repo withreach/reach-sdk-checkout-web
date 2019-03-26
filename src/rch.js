@@ -27,12 +27,12 @@ rch.detail.getUrlOrigin = function(url) {
  * Helper to create a form element with a target attribute
  *
  * @private
- * @param name {String} - the name of the form element
- * @param action {String} - the action for the form element
- * @param target {String} - the target for the form element (specifies where the submitted result will open i.e. an iframe)
- * @param values {Object} - key value pairs to be posted from the form
+ * @param {string} name - the name of the form element
+ * @param {string} action - the action for the form element
+ * @param {string} target - the target for the form element (specifies where the submitted result will open i.e. an iframe)
+ * @param {Object} values - key value pairs to be posted from the form
  *
- * @returns {Element} - Created form element
+ * @return {Element} - Created form element
  */
 rch.detail.createForm = (name, action, target, values) => {
 
