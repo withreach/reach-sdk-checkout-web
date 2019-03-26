@@ -115,7 +115,7 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
   const cleanup = function() {
     iframeContainer.removeChild( form );
     iframeContainer.removeChild( iframe );
-  }
+  };
   
   // Receive a message posted by the iframe
   const receiveMessage = function(event) {
@@ -149,6 +149,6 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
   
   window.addEventListener("message", receiveMessage);
   form.submit();
-}
+};
 
 // #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
