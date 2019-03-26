@@ -2,9 +2,9 @@
 
 Web SDK for the [Reach Checkout API](https://docs.withreach.com/display/PUB/Technical+Integration).
 
-
 ## Usage
 
+There is a minified version of the SDK in [dist/](dist/).
 See [test/index.html](test/index.html) for examples of the SDK in use.
 
 ### challenge()

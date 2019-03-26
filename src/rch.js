@@ -1,28 +1,17 @@
-// #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-//
-// Copyright 2019 Reach
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// ===========================================================================
-
+/**
+ * Reach Checkout API Web SDK
+ * 
+ * @copyright 2019 Reach
+ * @license Apache-2.0
+ */
 
 var rch = rch || {};
 rch.detail = rch.detail || {};
 
 /**
- * @function getUrlOrigin
+ * Helper to get the origin from a given url
+ * 
  * @private
- * @desc Helper to get the origin from a given url
  * @param {string} url - URL to be parsed
  * @return {string} - The origin of the URL
  */
@@ -35,10 +24,9 @@ rch.detail.getUrlOrigin = function(url) {
 };
 
 /**
- * @function createForm
+ * Helper to create a form element with a target attribute
  *
- * @desc Generic function for creating a form element with a target attribute
- *
+ * @private
  * @param name {String} - the name of the form element
  * @param action {String} - the action for the form element
  * @param target {String} - the target for the form element (specifies where the submitted result will open i.e. an iframe)
@@ -72,31 +60,32 @@ rch.detail.createForm = (name, action, target, values) => {
 };
 
 
-// ===========================================================================
-// Execute a 3D-Secure v2 cardholder challenge.  This should be called when a
-// `Challenge` result is returned from a Checkout API call.
-//
-//  - url: the challenge URL returned from the Checkout API.
-// 
-//  - windowSize: a two character string representing the size of the
-//      challenge window, as documented in the EMV 3-D Secure Protocol and 
-//      Core Functions Specification v2.2.0. Possible values:  
-//        01 = 250 x 400
-//        02 = 390 x 400
-//        03 = 500 x 600
-//        04 = 600 x 400
-//        05 = Full screen
-//
-//  - iframeContainer: an DOM element in which an iframe will be
-//      created for the interaction with the cardholder.
-//
-//  - callback: a function to be called when the interaction has completed 
-//      with an object containing the following:
-//      
-//    - error: an Error, if there was an error processing the request.
-//
-//    - authorized: true if the transaction was authorized, else false.
-//
+/**
+ * Execute a 3D-Secure v2 cardholder challenge.  This should be called when a
+ * `Challenge` result is returned from a Checkout API call.
+ *
+ * @param {string} url - the challenge URL returned from the Checkout API.
+ * 
+ * @param {string} windowSize - 
+ *     a two character string representing the size of the challenge window, 
+ *     as documented in the EMV 3-D Secure Specification v2.2.0. 
+ *     Possible values:  
+ *       01 = 250 x 400
+ *       02 = 390 x 400
+ *       03 = 500 x 600
+ *       04 = 600 x 400
+ *       05 = Full screen
+ *
+ * @param {Object} iframeContainer - 
+ *     the DOM element in which an iframe will be created for the interaction
+ *     with the cardholder.
+ *
+ * @param {function} callback -
+ *     the function to be called when the interaction has completed 
+ *     with an object containing the following:
+ *      
+ *       authorized: true if the transaction was authorized, else false.
+ */
 rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
   // create iframe and POST browser info, windowSize
