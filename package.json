@@ -1,0 +1,33 @@
+{
+  "name": "reach-sdk-checkout-web",
+  "version": "1.0.0",
+  "description": "Web SDK for the [Reach Checkout API](https://docs.withreach.com/display/PUB/Technical+Integration).",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withreach/reach-sdk-checkout-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/withreach/reach-sdk-checkout-web/issues"
+  },
+  "homepage": "https://github.com/withreach/reach-sdk-checkout-web#readme",
+  "devDependencies": {
+    "@adyen/threeds2-js-utils": "github:Adyen/adyen-3ds2-js-utils",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "jest": "^24.7.1",
+    "terser-webpack-plugin": "^1.2.3",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}

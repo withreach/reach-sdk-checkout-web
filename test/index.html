@@ -21,20 +21,20 @@ Window Size: <input type="text" size="2" id="windowSize" value="01"/><br/>
 <!-- To use the non-minified version:
 <script type="text/javascript" src="../adyen-3ds2-js-utils/dist/threeds2-js-utils.js"></script>
 <script type="text/javascript" src="../src/rch.js"></script>
--->
+<!-- -->
 <script type="text/javascript" src="../dist/reach.min.js"></script>
 
 <script type="text/javascript">
-    
-  document.getElementById("challenge").onclick = function(e) {
-    rch.challenge(document.getElementById("url").value, 
-                  document.getElementById("windowSize").value,
-                  document.getElementById("container"), 
-                  function (result) {
-      document.getElementById("result").value 
-        = Date() + "\n" + JSON.stringify(result);
-    });
-  };
+
+	document.getElementById("challenge").onclick = function(e) {
+		window.rch.challenge(document.getElementById("url").value,
+							document.getElementById("windowSize").value,
+							document.getElementById("container"),
+							function (result) {
+			document.getElementById("result").value
+				= Date() + "\n" + JSON.stringify(result);
+		});
+	};
 
 </script>
 
