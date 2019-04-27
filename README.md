@@ -29,21 +29,12 @@ Note that the challenge can be attempted only once for a transaction, per
 the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secure/).
 
 
-## Minification
+## Building and using
 
-### Prerequisites
-
-* Node.js and uglify: `sudo apt-get install node-uglify`
-* uglifyjs-folder (`sudo npm install -g uglifyjs-folder`)
-
-### Adyen 3DS2 Library
-
-If changes are made in the `adyen-3ds2-js-utils/` directory, rebuild as follows:
-* Run `npm install` and `npm run build` from `adyen-3ds2-js-utils/`
-
-### Reach SDK
-
-* Run `./minify.sh` to compile all files into a single file in `dist/`
+* Download repository
+* Run `npm install`
+* Run `webpack`
+* Output should built to `/dist/` directory
 
 ### Testing
 
