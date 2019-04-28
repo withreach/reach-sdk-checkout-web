@@ -34,8 +34,8 @@ the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secu
 * Download repository
 * Run `npm install`
 * Run `webpack`
-* Output should built to `/dist/` directory
+* Output should be installed into the `dist/` directory
 
 ### Testing
 
-* Use `/test/minify-index.html` to ensure minified script is working properly
+* Use `/test/index.html` to ensure minified script is working properly

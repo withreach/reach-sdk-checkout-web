@@ -13,8 +13,8 @@
     "type": "git",
     "url": "git+https://github.com/withreach/reach-sdk-checkout-web.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Reach",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/withreach/reach-sdk-checkout-web/issues"
   },
