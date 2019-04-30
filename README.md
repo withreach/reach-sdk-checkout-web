@@ -23,7 +23,8 @@ Then, if interaction with the shopper is required:
 * re-attempt authorization
 
 On completion, the iframe is removed and the supplied callback function is
-called with an indication of authorization success or failure.
+called with an indication of authorization success or failure, e.g. 
+`{ "authorized" : true }`.
 
 Note that the challenge can be attempted only once for a transaction, per
 the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secure/).
