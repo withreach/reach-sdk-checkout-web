@@ -10,7 +10,8 @@ See [test/index.html](test/index.html) for examples of the SDK in use.
 ### challenge()
 
 When a `Challenge` action is returned from `/checkout`, `/authorize` or
-`/openContract`, call this method with the URL included in the API response.
+`/openContract`, call [src/reach.lib.js#L94]challenge()) with the URL included in the API response. 
+```window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback)``` 
 
 This will:
 * create an iframe, initially with 0x0 dimensions
