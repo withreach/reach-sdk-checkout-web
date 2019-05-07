@@ -33,7 +33,7 @@ Note that the challenge can be attempted only once for a transaction, per
 the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secure/).
 
 
-## Building and using
+## Rebuilding Minified JavaScript 
 
 * Download repository
 * Run `npm install`
