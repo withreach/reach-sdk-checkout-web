@@ -95,7 +95,7 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
 	// create iframe and POST browser info, windowSize
 	const browser = ThreedDS2Utils.getBrowserInfo();
-	console.log(broweser);
+	console.log(browser);
 	const postData = {
 		challengeWindowSize :
 			ThreedDS2Utils.config.validateChallengeWindowSize(windowSize),
