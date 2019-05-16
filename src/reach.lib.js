@@ -127,7 +127,8 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
 	const receiveMessage = function(event) {
 
 		if (event.origin != rch.detail.getUrlOrigin(url)) {
-			console.log("Ignoring message from", event.origin);
+			console.log("Ignoring message from", event.origin,
+						"not in same origin as", url);
 			return;
 		}
 

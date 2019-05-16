@@ -36,8 +36,7 @@ the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secu
 ## Rebuilding Minified JavaScript 
 
 * Download repository
-* Run `npm install`
-* Run `webpack`
+* Run `make`
 * Output should be installed into the `dist/` directory
 
 ### Testing
