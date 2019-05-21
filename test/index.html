@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Reach 3DS2 Test Page</title>
+</head>
+<body>
+
+<form style="border: 1px solid">
+Challenge URL: <input type="text" size="40" id="url"/><br/>
+Window Size: <input type="text" size="2" id="windowSize" value="01"/><br/>
+<button type="button" id="challenge">challenge</button>
+</form>
+
+<div id="container" style="border: 1px solid"></div>
+
+<textarea rows="10" cols="80" id="result">
+</textarea>
+
+<style>
+</style>
+
+<!-- To use the non-minified version:
+<script type="text/javascript" src="../adyen-3ds2-js-utils/dist/threeds2-js-utils.js"></script>
+<script type="text/javascript" src="../src/reach.lib.js"></script>-->
+  
+<script type="text/javascript" src="../dist/reach.min.js"></script>
+
+<script type="text/javascript">
+
+	document.getElementById("challenge").onclick = function(e) {
+		window.rch.challenge(document.getElementById("url").value,
+							document.getElementById("windowSize").value,
+							document.getElementById("container"),
+							function (result) {
+			document.getElementById("result").value
+				= Date() + "\n" + JSON.stringify(result);
+		});
+	};
+
+</script>
+
+</body>
+</html>
