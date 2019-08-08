@@ -10,10 +10,14 @@ See [test/index.html](test/index.html) for examples of the SDK in use.
 ### challenge()
 
 When a `Challenge` action is returned from `/checkout`, `/authorize` or
-`/openContract`, call [challenge()](src/reach.lib.js#L68) with the URL included in the API response. 
+`/openContract`, call [challenge()](src/reach.lib.js#L68) with the URL included in the API response.
 ```javascript
 window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback);
-``` 
+```
+You may also pass in a function to call once the challenge screen has loaded.
+```javascript
+window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback, loaded);
+```
 
 This will:
 * create an iframe, initially with 0x0 dimensions
@@ -26,14 +30,13 @@ Then, if interaction with the shopper is required:
 * re-attempt authorization
 
 On completion, the iframe is removed and the supplied callback function is
-called with an indication of authorization success or failure, e.g. 
+called with an indication of authorization success or failure, e.g.
 `{ "authorized" : true }`.
 
 Note that the challenge can be attempted only once for a transaction, per
 the [3-D Secure v2 specification](https://www.emvco.com/emv-technologies/3d-secure/).
 
-
-## Rebuilding Minified JavaScript 
+## Rebuilding Minified JavaScript
 
 * Download repository
 * Run `make`

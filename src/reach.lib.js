@@ -36,7 +36,7 @@ rch.detail.getUrlOrigin = function(url) {
  *
  * @return {Element} - Created form element
  */
-rch.detail.createForm = (name, action, target, values) => { 
+rch.detail.createForm = (name, action, target, values) => {
 
   //console.log(name)
   //console.log(action, target, values)
@@ -91,7 +91,7 @@ rch.detail.createForm = (name, action, target, values) => {
  *
  *       authorized: true if the transaction was authorized, else false.
  */
-rch.challenge = function(url, windowSize, iframeContainer, callback) {
+rch.challenge = function(url, windowSize, iframeContainer, callback, loading) {
 
   // create iframe and POST browser info, windowSize
   const browser = ThreedDS2Utils.getBrowserInfo();
@@ -143,6 +143,10 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
         = ThreedDS2Utils.config.getChallengeWindowSize(windowSize);
       iframe.width = iframeDims[0];
       iframe.height = iframeDims[1];
+	  // Our iframe has loaded, call loading callback
+	  if(loading !== undefined && typeof loading === "function"){
+		loading(); 
+	  }
     }
     else if (event.data.result) {
       // Clean up the iframe and call back after the challenge has completed
