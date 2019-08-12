@@ -90,6 +90,7 @@ rch.detail.createForm = (name, action, target, values) => {
  *     with an object containing the following:
  *
  *       authorized: true if the transaction was authorized, else false.
+ *       ContractId: the identifier for the contract opened, if applicable.
  */
 rch.challenge = function(url, windowSize, iframeContainer, callback) {
 
