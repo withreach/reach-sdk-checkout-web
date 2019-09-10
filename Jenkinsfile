@@ -20,8 +20,6 @@ pipeline {
             steps {
                 sh 'ls -al'
                 sh 'ls -al dist' 
-            }
-            steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-development', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     sh 'aws s3 ls s3://reach-lambda-layers'
                 }
