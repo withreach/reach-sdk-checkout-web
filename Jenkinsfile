@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Upload - Development') {
             when {
-                environment name: 'RCH_ENVIRONMENT', value: 'DEVELOPMENT'
+                environment name: 'RCH_ENVIRONMENT', value: 'development'
             }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-development', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Upload - Sandbox') {
             when {
-                environment name: 'RCH_ENVIRONMENT', value: 'SANDBOX'
+                environment name: 'RCH_ENVIRONMENT', value: 'sandbox'
             }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-sandbox', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Upload - Production') {
             when {
-                environment name: 'RCH_ENVIRONMENT', value: 'PRODUCTION'
+                environment name: 'RCH_ENVIRONMENT', value: 'production'
             }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-production', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
