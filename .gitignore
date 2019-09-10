@@ -4,4 +4,3 @@ libs/
 .npm
 .config
 dist/
-package-lock.json
