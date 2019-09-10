@@ -21,30 +21,12 @@ pipeline {
         }
         stage('Upload - Development') {
             when {
-                environment name: 'RCH_ENVIRONMENT', value: 'development'
-            }
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-development', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    sh 'aws s3 mv ./dist/reach.min.js s3://${RCH_BUCKET}/sdk/checkout-web/reach.min.js'
+                not {
+                    environment name: 'RCH_ENVIRONMENT', value: 'none'
                 }
             }
-        }
-        stage('Upload - Sandbox') {
-            when {
-                environment name: 'RCH_ENVIRONMENT', value: 'sandbox'
-            }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-sandbox', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    sh 'aws s3 mv ./dist/reach.min.js s3://${RCH_BUCKET}/sdk/checkout-web/reach.min.js'
-                }
-            }
-        }
-        stage('Upload - Production') {
-            when {
-                environment name: 'RCH_ENVIRONMENT', value: 'production'
-            }
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-production', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '${RCH_CREDENTIALS}', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     sh 'aws s3 mv ./dist/reach.min.js s3://${RCH_BUCKET}/sdk/checkout-web/reach.min.js'
                 }
             }
