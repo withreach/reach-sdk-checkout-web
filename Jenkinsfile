@@ -9,6 +9,7 @@ pipeline {
                 sh 'npm --version'
                 sh 'pwd'
                 sh 'env'
+                sh 'ls -al'
             }
         }
         stage('Build') {
