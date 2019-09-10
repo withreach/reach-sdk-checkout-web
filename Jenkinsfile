@@ -3,6 +3,9 @@ pipeline {
         dockerfile {
         }
     }
+    environment {
+        HOME = .
+    }
     stages {
         stage('Setup') {
             steps {

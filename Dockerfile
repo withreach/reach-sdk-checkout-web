@@ -7,5 +7,3 @@ RUN apt-get update \
     && apt-get clean
 
 RUN pip3 --no-cache-dir install --upgrade awscli boto boto3
-
-ENV HOME .
