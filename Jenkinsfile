@@ -16,6 +16,12 @@ pipeline {
                 sh 'make all'
             }
         }
+        stage('Debug') {
+            steps {
+                sh 'ls -al'
+                sh 'ls -al dist' 
+            }
+        }
     }
     post {
         always {
