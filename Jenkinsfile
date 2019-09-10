@@ -19,7 +19,7 @@ pipeline {
                 sh 'make all'
             }
         }
-        stage('Upload - Development') {
+        stage('Upload - Environment') {
             when {
                 not {
                     environment name: 'RCH_ENVIRONMENT', value: 'none'
@@ -31,7 +31,7 @@ pipeline {
                 }
             }
         }
-        stage('Upload - Unknown') {
+        stage('Upload - Unknown Environment') {
             when { 
                 environment name: 'RCH_ENVIRONMENT', value: 'none'
             }
