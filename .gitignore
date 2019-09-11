@@ -1,3 +1,6 @@
 node_modules/
 libs/
 .c9/
+.npm
+.config
+dist/
