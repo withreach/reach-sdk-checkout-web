@@ -21,7 +21,8 @@ module.exports = {
 					loader: require.resolve('babel-loader'),
 					options: {
 						compact: true,
-						highlightCode: true
+						highlightCode: true,
+						plugins: ["@babel/plugin-transform-template-literals"]
 					}
 				}
 			]
