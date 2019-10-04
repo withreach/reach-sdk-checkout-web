@@ -12,11 +12,7 @@ See [test/index.html](test/index.html) for examples of the SDK in use.
 When a `Challenge` action is returned from `/checkout`, `/authorize` or
 `/openContract`, call [challenge()](src/reach.lib.js#L68) with the URL included in the API response.
 ```javascript
-window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback);
-```
-You may also pass in a function to call once the challenge screen has loaded.
-```javascript
-window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback, loaded);
+window.rch.challenge(challengeUrl, windowSize, iframeContainer, callback, loadedCallback);
 ```
 
 This will:
