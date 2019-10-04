@@ -91,7 +91,7 @@ rch.detail.createForm = (name, action, target, values) => {
  *
  *       authorized: true if the transaction was authorized, else false.
  */
-rch.challenge = function(url, windowSize, iframeContainer, callback, loading) {
+rch.challenge = function(url, windowSize, iframeContainer, callback, loadedCallback) {
 
   // create iframe and POST browser info, windowSize
   const browser = ThreedDS2Utils.getBrowserInfo();
@@ -144,8 +144,8 @@ rch.challenge = function(url, windowSize, iframeContainer, callback, loading) {
       iframe.width = iframeDims[0];
       iframe.height = iframeDims[1];
 	  // Our iframe has loaded, call loading callback
-	  if(loading !== undefined && typeof loading === "function"){
-		loading(); 
+	  if(loadedCallback !== undefined && typeof loadedCallback === "function"){
+		loadedCallback();
 	  }
     }
     else if (event.data.result) {
