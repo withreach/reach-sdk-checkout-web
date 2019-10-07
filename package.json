@@ -22,6 +22,7 @@
   "devDependencies": {
     "@adyen/threeds2-js-utils": "github:Adyen/adyen-3ds2-js-utils#a5147631210fad888461efe8e52b8e7137930995",
     "@babel/core": "^7.4.3",
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.4.3",
     "babel-loader": "^8.0.5",
