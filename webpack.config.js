@@ -22,7 +22,10 @@ module.exports = {
 					options: {
 						compact: true,
 						highlightCode: true,
-						plugins: ["@babel/plugin-transform-template-literals"]
+						plugins: [
+							"@babel/plugin-transform-template-literals",
+							"@babel/plugin-transform-arrow-functions"
+						]
 					}
 				}
 			]
