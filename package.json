@@ -21,15 +21,19 @@
   "homepage": "https://github.com/withreach/reach-sdk-checkout-web#readme",
   "devDependencies": {
     "@adyen/threeds2-js-utils": "github:Adyen/adyen-3ds2-js-utils#a5147631210fad888461efe8e52b8e7137930995",
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.6.2",
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
+    "@babel/plugin-transform-parameters": "^7.4.4",
     "@babel/plugin-transform-template-literals": "^7.4.4",
-    "@babel/preset-env": "^7.4.3",
-    "babel-loader": "^8.0.5",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
+    "babel-loader": "^8.0.6",
     "jest": "^24.7.1",
-    "terser-webpack-plugin": "^1.2.3",
-    "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.6.0",
+    "core-js": "^3.2.1"
   }
 }

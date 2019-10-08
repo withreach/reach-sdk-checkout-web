@@ -36,7 +36,7 @@ rch.detail.getUrlOrigin = function(url) {
  *
  * @return {Element} - Created form element
  */
-rch.detail.createForm = (name, action, target, values) => { 
+rch.detail.createForm = (name, action, target, values) => {
 
   //console.log(name)
   //console.log(action, target, values)
