@@ -20,7 +20,7 @@ module.exports = {
 					presets: [
 						[
 							"@babel/preset-env", {
-								"useBuiltIns": "entry",
+								"useBuiltIns": "false",
 								"corejs": 3,
 								"debug": true,
 								"forceAllTransforms": true
