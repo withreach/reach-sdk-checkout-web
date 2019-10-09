@@ -36,7 +36,7 @@ rch.detail.getUrlOrigin = function(url) {
  *
  * @return {Element} - Created form element
  */
-rch.detail.createForm = (name, action, target, values) => { 
+rch.detail.createForm = (name, action, target, values) => {
 
   //console.log(name)
   //console.log(action, target, values)
@@ -91,8 +91,12 @@ rch.detail.createForm = (name, action, target, values) => {
  *
  *       authorized: true if the transaction was authorized, else false.
  *       ContractId: the identifier for the contract opened, if applicable.
+ *
+ * @param {function} loadedCallback -
+ *     the function to be called once the iframe has been loaded
+ *
  */
-rch.challenge = function(url, windowSize, iframeContainer, callback) {
+rch.challenge = function(url, windowSize, iframeContainer, callback, loadedCallback) {
 
   // create iframe and POST browser info, windowSize
   const browser = ThreedDS2Utils.getBrowserInfo();
@@ -144,6 +148,10 @@ rch.challenge = function(url, windowSize, iframeContainer, callback) {
         = ThreedDS2Utils.config.getChallengeWindowSize(windowSize);
       iframe.width = iframeDims[0];
       iframe.height = iframeDims[1];
+	  // Our iframe has loaded, call loading callback
+	  if(loadedCallback !== undefined && typeof loadedCallback === "function"){
+		loadedCallback();
+	  }
     }
     else if (event.data.result) {
       // Clean up the iframe and call back after the challenge has completed
