@@ -4,7 +4,7 @@ Web SDK for the [Reach Checkout API](https://docs.withreach.com/display/PUB/Tech
 
 ## Usage
 
-There is a minified version of the SDK at [here](https://cf-assets.rch.io/sdk/checkout-web/reach.min.js).
+There is a minified version of the SDK at [here](https://assets.rch.io/sdk/checkout-web/reach.min.js).
 See [test/index.html](test/index.html) for examples of the SDK in use.
 
 ### challenge()
