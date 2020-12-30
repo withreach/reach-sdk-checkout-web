@@ -148,10 +148,11 @@ rch.challenge = function(url, windowSize, iframeContainer, callback, loadedCallb
         = ThreedDS2Utils.config.getChallengeWindowSize(windowSize);
       iframe.width = iframeDims[0];
       iframe.height = iframeDims[1];
-	  // Our iframe has loaded, call loading callback
-	  if(loadedCallback !== undefined && typeof loadedCallback === "function"){
-		loadedCallback();
-	  }
+      
+	    // Our iframe has loaded, call loading callback
+	    if(loadedCallback !== undefined && typeof loadedCallback === "function"){
+		    loadedCallback();
+	    }
     }
     else if (event.data.result) {
       // Clean up the iframe and call back after the challenge has completed
