@@ -26,14 +26,23 @@ Window Size: <input type="text" size="2" id="windowSize" value="01"/><br/>
 
 <script type="text/javascript">
 
+	callback = function (result) {
+			     document.getElementById("result").value
+				    = Date() + "\n" + JSON.stringify(result);
+				};
+				
+	loadedCallback = function (result) {
+					   document.getElementById("result").value 
+					     = "Challenge in progress...";
+					 };
+					 
 	document.getElementById("challenge").onclick = function(e) {
 		window.rch.challenge(document.getElementById("url").value,
 							document.getElementById("windowSize").value,
 							document.getElementById("container"),
-							function (result) {
-			document.getElementById("result").value
-				= Date() + "\n" + JSON.stringify(result);
-		});
+							callback, 
+							loadedCallback					
+		);
 	};
 
 </script>
