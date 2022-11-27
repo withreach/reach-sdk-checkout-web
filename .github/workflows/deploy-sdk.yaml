@@ -87,10 +87,6 @@ jobs:
         run: |
           npm audit --audit-level=high --production
 
-      - name: Lint
-        run: |
-          npm run lint
-
       - name: Build
         run: |
           webpack
