@@ -66,7 +66,7 @@ jobs:
           echo "Branch:      ${{ steps.init-outputs.outputs.branch }}" >> $GITHUB_STEP_SUMMARY
 
   build:
-    name: Audit, Lint & Build
+    name: Audit & Build
     runs-on: ubuntu-latest
     environment: ${{ needs.initialize.outputs.environment }}
     needs: initialize
