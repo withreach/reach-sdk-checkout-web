@@ -1,0 +1,133 @@
+name: Deploy - Checkout Web SDK
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+      branch:
+        type: string
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Deployment Environment
+        options:
+          - red
+          - coffee
+          - fail
+          - how
+          - io
+          - maison
+          - ninja
+      branch:
+        type: string
+        description: Branch to deploy
+        required: false
+        default: main
+
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  BUCKET_NAME_PREFIX: assets.rch
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  initialize:
+    name: Initialize
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      branch: ${{ steps.init-outputs.outputs.branch }}
+      environment: ${{ steps.init-outputs.outputs.environment }}
+      sha-short: ${{ steps.init-outputs.outputs.sha-short }}
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ASSUME_ROLE }}
+          role-session-name: rch-github-runner
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - uses: rlespinasse/github-slug-action@v4
+
+      - name: Initialize shared outputs
+        id: init-outputs
+        run: |
+          echo "environment=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+          echo "branch=${{ inputs.branch }}" >> $GITHUB_OUTPUT
+          echo "sha-short=${{ env.GITHUB_SHA_SHORT }}" >> $GITHUB_OUTPUT
+      - name: Initialize summary
+        run: |
+          echo '### :rocket: Deploying to ${{ steps.init-outputs.outputs.environment }}' >> $GITHUB_STEP_SUMMARY
+          echo "Deployer:    ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "Env:         ${{ steps.init-outputs.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "Branch:      ${{ steps.init-outputs.outputs.branch }}" >> $GITHUB_STEP_SUMMARY
+
+  build:
+    name: Audit & Build
+    runs-on: ubuntu-latest
+    environment: ${{ needs.initialize.outputs.environment }}
+    needs: initialize
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.initialize.outputs.branch }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Audit packages
+        run: |
+          npm audit --audit-level=high --production
+
+      - name: Build
+        run: |
+          webpack
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sdk-checkout-web-${{ needs.initialize.outputs.sha-short }}
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs:
+      - initialize
+      - build
+    runs-on: ubuntu-latest
+    environment: ${{ needs.initialize.outputs.environment }}
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ASSUME_ROLE }}
+          role-session-name: rch-github-runner
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: sdk-checkout-web-${{ needs.initialize.outputs.sha-short }}
+          path: dist
+
+      - name: Deploy to ${{ needs.initialize.outputs.environment }}
+        env:
+          BUCKET_NAME: ${{ env.BUCKET_NAME_PREFIX }}.${{ needs.initialize.outputs.environment }}
+        run: |
+          case ${{ needs.initialize.outputs.environment }} in
+            'how' | 'io')
+              aws s3 sync dist s3://${BUCKET_NAME}/sdk/checkout-web --no-progress
+              ;;
+            *)
+              aws s3 sync dist s3://rch-cf-${BUCKET_NAME}-${{ env.AWS_DEFAULT_REGION }}/sdk/checkout-web --no-progress
+              ;;
+          esac
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: sdk-checkout-web-${{ needs.initialize.outputs.sha-short }}

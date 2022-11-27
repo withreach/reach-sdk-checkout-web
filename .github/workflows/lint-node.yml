@@ -1,0 +1,30 @@
+name: Lint - Node
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  run-checks:
+    name: Audit & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Audit Packages
+        run: |
+          npm audit --audit-level=high --production
+
+      - name: Lint Files
+        run: |
+          npm run lint
