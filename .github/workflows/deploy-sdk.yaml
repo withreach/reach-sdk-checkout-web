@@ -120,7 +120,7 @@ jobs:
           BUCKET_NAME: ${{ env.BUCKET_NAME_PREFIX }}.${{ needs.initialize.outputs.environment }}
         run: |
           case ${{ needs.initialize.outputs.environment }} in
-            'how' | 'io')
+            'how' | 'io' | 'red')
               aws s3 sync dist s3://${BUCKET_NAME}/sdk/checkout-web --no-progress
               ;;
             *)
