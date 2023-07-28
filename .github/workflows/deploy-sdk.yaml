@@ -37,7 +37,7 @@ permissions:
 jobs:
   initialize:
     name: Initialize
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: ${{ inputs.environment }}
     outputs:
       branch: ${{ steps.init-outputs.outputs.branch }}
@@ -67,7 +67,7 @@ jobs:
 
   build:
     name: Audit & Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: ${{ needs.initialize.outputs.environment }}
     needs: initialize
     steps:
@@ -101,7 +101,7 @@ jobs:
     needs:
       - initialize
       - build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: ${{ needs.initialize.outputs.environment }}
     steps:
       - uses: aws-actions/configure-aws-credentials@v1-node16
