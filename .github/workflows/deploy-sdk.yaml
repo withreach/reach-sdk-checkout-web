@@ -39,7 +39,7 @@ jobs:
           ENVIRONMENT: ${{ inputs.environment }}
         run: |
           case $ENVIRONMENT in
-            how|rip|rocks|wtf)
+            how|io|rip|rocks|wtf)
               echo "region=us-west-2" >> $GITHUB_OUTPUT
               ;;
             *)
