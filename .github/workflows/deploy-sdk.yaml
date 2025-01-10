@@ -74,6 +74,6 @@ jobs:
       - name: Deploy to ${{ inputs.environment }}
         env:
           ENVIRONMENT: ${{ inputs.environment }}
-          REGION: ${{ inputs.region }}
+          REGION: ${{ steps.init.outputs.region }}
         run: |
           aws s3 sync dist s3://rch-cf-assets-${ENVIRONMENT}-${REGION}/sdk/checkout-web --no-progress
