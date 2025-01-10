@@ -22,11 +22,6 @@ on:
           - ninja
           - rocks
           - wtf
-      branch:
-        type: string
-        description: Branch to deploy
-        required: false
-        default: main
 
 permissions:
   id-token: write
@@ -58,6 +53,8 @@ jobs:
           role-session-name: rch-github-runner
           aws-region: ${{ steps.init.outputs.region }}
 
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 14
@@ -76,7 +73,7 @@ jobs:
 
       - name: Deploy to ${{ inputs.environment }}
         env:
-          BUCKET_NAME: ${{ env.BUCKET_NAME_PREFIX }}.${{ inputs.environment }}
+          ENVIRONMENT: ${{ inputs.environment }}
           REGION: ${{ inputs.region }}
         run: |
-          aws s3 sync dist s3://rch-cf-assets-$ENVIRONMENT-${{ inputs.region }}/sdk/checkout-web --no-progress
+          aws s3 sync dist s3://rch-cf-assets-${ENVIRONMENT}-${REGION}/sdk/checkout-web --no-progress
