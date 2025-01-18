@@ -1,5 +1,7 @@
 name: Deploy - Checkout Web SDK
 
+run-name: "${{ github.workflow }}: ${{ github.ref_name }} to ${{ inputs.environment }}"
+
 on:
   workflow_call:
     inputs:
@@ -18,6 +20,7 @@ on:
           - fail
           - how
           - io
+          - lol
           - maison
           - ninja
           - rip
